@@ -1,0 +1,16 @@
+{
+  "name": "AI Reader M3 原厂固件",
+  "version": "2025-11-23 备份",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32-S3",
+      "parts": [
+        {
+          "path": "factory_16MB.bin",
+          "offset": 0
+        }
+      ]
+    }
+  ]
+}

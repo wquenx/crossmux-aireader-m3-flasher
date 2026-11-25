@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Reader M3 · 恢复原厂固件</title>
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: #f5f5f3;
+    color: #1c1c1a;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                 "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    line-height: 1.7;
+  }
+  main {
+    width: 100%;
+    max-width: 620px;
+    background: #fff;
+    border: 1px solid #e2e0da;
+    border-radius: 14px;
+    padding: 32px 28px 28px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, .06);
+  }
+  h1 { margin: 0 0 4px; font-size: 22px; letter-spacing: .3px; }
+  .sub { margin: 0 0 22px; font-size: 13px; color: #6b6a64; }
+  .meta {
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    gap: 6px 12px;
+    margin: 0 0 20px;
+    padding: 14px 16px;
+    background: #faf9f6;
+    border: 1px solid #ebe9e3;
+    border-radius: 10px;
+    font-size: 13px;
+  }
+  .meta dt { color: #85847d; }
+  .meta dd { margin: 0; font-variant-numeric: tabular-nums; }
+  .warn {
+    margin: 0 0 22px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: #fdf6e8;
+    border: 1px solid #f0dcae;
+    color: #7a5310;
+    font-size: 13px;
+  }
+  ol { margin: 0 0 22px; padding-left: 20px; font-size: 14px; }
+  li { margin-bottom: 6px; }
+  .install { display: flex; justify-content: center; margin: 26px 0 8px; }
+  esp-web-install-button { --esp-tools-button-color: #1c1c1a; --esp-tools-button-text-color: #fff; }
+  .unsupported {
+    display: none;
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: #fdeeea;
+    border: 1px solid #f3c9bf;
+    color: #8a2f1c;
+    font-size: 13px;
+  }
+  .notes {
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid #ecebe6;
+    font-size: 12.5px;
+    color: #6b6a64;
+  }
+  .notes ul { margin: 6px 0 0; padding-left: 18px; }
+  .notes li { margin-bottom: 4px; }
+  .back { display: inline-block; margin-top: 16px; font-size: 12.5px; color: #6b6a64; }
+  code {
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: #f1f0eb;
+    font-size: 12px;
+    word-break: break-all;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { background: #131312; color: #eceae4; }
+    main { background: #1c1c1a; border-color: #2e2e2a; box-shadow: none; }
+    .meta { background: #20201e; border-color: #2e2e2a; }
+    .warn { background: #332a16; border-color: #574521; color: #e2c893; }
+    .notes { border-top-color: #2e2e2a; }
+    code { background: #2a2a26; }
+    .unsupported { background: #3a211b; border-color: #5c3127; color: #f0b3a2; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>AI Reader M3 · 恢复原厂固件</h1>
+  <p class="sub">网页一键恢复 · 无需安装任何软件</p>
+
+  <dl class="meta">
+    <dt>设备</dt><dd>AI Reader M3（ESP32-S3 / 16MB）</dd>
+    <dt>备份日期</dt><dd>2025-11-23</dd>
+    <dt>镜像</dt><dd>16MB 全片备份（含引导、分区表与全部数据）</dd>
+    <dt>校验值</dt><dd>f2b374d26783bdc1230986de552fb62f</dd>
+  </dl>
+
+  <div class="warn">
+    恢复会覆盖设备上的当前系统（如 CrossMux）及其全部内部设置，设备将回到原厂系统。
+    SD 卡中的书和阅读进度不受影响。
+  </div>
+
+  <ol>
+    <li>用 <strong>Chrome 或 Edge 桌面版</strong>打开本页（手机浏览器不支持）。</li>
+    <li>用 USB 线连接阅读器与电脑。</li>
+    <li>点下方按钮，在弹窗中选择串口并确认。</li>
+    <li>16MB 全片写入约需 2–3 分钟，请耐心等待，不要拔线。</li>
+    <li>进度完成后设备自动重启，即回到原厂系统。</li>
+  </ol>
+
+  <div class="install">
+    <esp-web-install-button manifest="manifest.json">
+      <button slot="activate">连接设备并恢复原厂固件</button>
+      <span slot="unsupported">当前浏览器不支持 Web Serial，请改用桌面版 Chrome / Edge。</span>
+      <span slot="not-allowed">本页必须通过 HTTPS 打开才能刷机。</span>
+    </esp-web-install-button>
+  </div>
+
+  <p class="unsupported" id="unsupported-tip"></p>
+
+  <div class="notes">
+    <strong>注意事项</strong>
+    <ul>
+      <li>写入过程会自动校验数据，出现“全部完成”即表示成功。</li>
+      <li>若提示无法连接，请关闭串口监视器等占用端口的程序后重试。</li>
+      <li>恢复后如要重新安装 CrossMux，返回刷机首页即可。</li>
+    </ul>
+    <a class="back" href="../index.html">← 返回 CrossMux 刷机页</a>
+  </div>
+</main>
+
+<script type="module" src="../vendor/install-button.js"></script>
+<script>
+  if (!("serial" in navigator)) {
+    var tip = document.getElementById("unsupported-tip");
+    tip.style.display = "block";
+    tip.textContent = "提示：当前浏览器不支持 Web Serial 接口。请使用桌面版 Chrome 或 Edge，并通过 HTTPS 访问本页。";
+  }
+</script>
+</body>
+</html>
